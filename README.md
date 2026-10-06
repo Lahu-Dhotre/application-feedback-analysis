@@ -1,344 +1,265 @@
-<<<<<<< HEAD
 # Banking Application Logout Feedback Analysis
+
+A Jupyter notebook project for analyzing synthetic user feedback on the logout experience across 100 banking applications. The analysis combines statistical summaries, sentiment scoring, text mining, and visualization to uncover satisfaction drivers, pain points, and application-level performance trends.
 
 ## Overview
 
-This project provides a comprehensive Jupyter notebook for analyzing user feedback on logout experience across three banking enterprise applications:
-- **Collections**
-- **Payments**
-- **Customer Service Center**
+This repository contains a notebook-based data analysis workflow that:
 
-The analysis includes synthetic data generation, statistical analysis, sentiment analysis, text mining, and actionable insights with visualizations.
+- Generates synthetic feedback data for 100 banking applications
+- Simulates realistic 1–5 star ratings and free-text reviews
+- Applies dual sentiment scoring using TextBlob and VADER
+- Identifies frequent words and themes in negative/positive feedback
+- Produces visualizations and summary metrics for business insights
+- Exports analysis results to CSV files for downstream use
+
+The project is intentionally designed as a notebook-first analysis workflow rather than a traditional application codebase.
+
+## Project Goals
+
+- Measure customer satisfaction around logout experience
+- Compare performance across multiple banking applications
+- Detect patterns in good and poor logout feedback
+- Summarize insights in an executive-friendly format
+- Create reusable analysis outputs from synthetic but realistic data
+
+## Repository Structure
+
+```text
+.
+├── feedback_analysis.ipynb          # Main analysis notebook
+├── create_notebook.py              # Generates/regenerates the notebook
+├── requirements.txt                # Project dependencies
+├── README.md                       # Project documentation
+├── SETUP_GUIDE.txt                 # Quick setup instructions
+├── CLAUDE.md                      # Repository guidance for Claude Code
+├── feedback_analysis_with_sentiment.csv  # Generated full dataset export
+├── summary_statistics.csv          # Summary metrics export
+├── application_summary.csv         # Per-application summary export
+└── .gitignore
+```
+
+## Dataset Characteristics
+
+The generated dataset includes:
+
+- 100 banking applications
+- 5,400 records total (54 per application)
+- 1–5 star ratings
+- Realistic application-agnostic feedback templates tied to rating levels
+- Reproducible results through a fixed random seed (`random.seed(42)`) 
+
+Example rating pattern:
+
+- 5-star: 30%
+- 4-star: 35%
+- 3-star: 20%
+- 2-star: 10%
+- 1-star: 5%
+
+## Analysis Pipeline
+
+The notebook follows this flow:
+
+1. Synthetic data generation
+2. Statistical overview
+3. Sentiment analysis
+4. Text mining and keyword analysis
+5. Visualizations and comparisons
+6. Insight generation and recommendations
+7. CSV export
+
+## Sentiment Analysis
+
+The project uses a dual-method sentiment model for robustness:
+
+- TextBlob polarity score (-1 to +1)
+- VADER compound score (-1 to +1)
+- Final sentiment score = average of both methods
+- Sentiment categories:
+  - Positive: score >= 0.3
+  - Neutral: -0.3 < score < 0.3
+  - Negative: score <= -0.3
+
+This helps combine general NLP polarity with social-text sentiment detection.
 
 ## Features
 
-### 📊 Data Analysis
-- **Synthetic Dataset**: 570+ realistic feedback records with ratings (1-5 stars) and contextual feedback
-- **Statistical Analysis**: Distribution analysis, correlation tests, and performance comparisons
-- **Sentiment Analysis**: TextBlob and VADER sentiment scoring with polarity categorization
-- **Text Mining**: Keyword extraction, frequency analysis, and theme identification
+### Data Generation
 
-### 📈 Visualizations
-- Rating distribution histograms and box plots
-- Sentiment distribution pie charts and stacked bar charts
-- Word clouds (overall, by application, and by sentiment)
-- Trend analysis with moving averages
-- Cumulative satisfaction and issue tracking
-- Heatmaps and scatter plots
+- Builds 100 unique banking application names from combinations of:
+  - 10 bank types
+  - 10 regions
+  - 10 service names
+- Produces realistic feedback for each rating level
+- Ensures reproducible synthetic analysis results
 
-### 💡 Insights & Recommendations
-- Application performance rankings
-- Critical issue identification
-- Satisfaction driver analysis
-- Priority matrix for actionable items
-- Strategic recommendations with implementation timelines
+### Statistical Analysis
 
-### 📋 Export Capabilities
-- Processed dataset with sentiment scores (CSV)
-- Summary statistics table (CSV)
-- Application-wise performance summary (CSV)
+- Rating distribution analysis
+- Satisfaction and issue-rate tracking
+- Correlation between rating and sentiment
+- Per-application performance summaries
 
-## Quick Start
+### Text Mining
+
+- Keyword frequency analysis
+- Word cloud generation
+- Theme extraction from positive and negative feedback
+- Review pattern analysis by sentiment category
+
+### Visualization
+
+- Rating histograms and summary charts
+- Distribution and comparison plots
+- Scatter plots for sentiment vs. rating
+- Word clouds for overall and grouped views
+- Top application performance visual comparisons
+
+### Exportable Outputs
+
+The notebook generates these CSV files:
+
+- `feedback_analysis_with_sentiment.csv` — full feedback dataset with sentiment metrics
+- `summary_statistics.csv` — high-level KPI summary
+- `application_summary.csv` — per-application performance statistics
+
+## Getting Started
 
 ### Prerequisites
-- Python 3.8+
-- pip or conda package manager
+
+- Python 3.9+
+- pip
+- Jupyter environment
 
 ### Installation
 
-1. **Clone/Download the project:**
-```bash
-cd /path/to/application_feedback_analysis
-```
-
-2. **Install dependencies:**
 ```bash
 pip install -r requirements.txt
 ```
 
-3. **Download NLTK data (one-time setup):**
+### Download NLP resources
+
 ```bash
 python -m textblob.download_corpora
+```
+
+If missing NLTK resources are encountered during execution, you may also install them manually:
+
+```bash
 python -c "import nltk; nltk.download('punkt'); nltk.download('stopwords'); nltk.download('vader_lexicon')"
 ```
 
-### Running the Notebook
+### Run the notebook
 
 ```bash
 jupyter notebook feedback_analysis.ipynb
 ```
 
-This will open the notebook in your default browser. Run all cells sequentially (Kernel → Restart & Run All) to generate the complete analysis.
+Then in Jupyter:
 
-## Notebook Structure
+- Select the notebook
+- Choose `Kernel > Restart & Run All`
 
-### Cell 1: Setup and Imports
-Loads all required libraries and configures visualization settings.
+## Regenerating the Notebook
 
-### Cell 2: Synthetic Dataset Generation
-Generates 570 realistic feedback records with:
-- 3 banking applications (equal distribution)
-- 1-5 star ratings with realistic distribution
-- Application and rating-specific feedback templates
+If the notebook has been corrupted or needs to be rebuilt:
 
-### Cell 3: Data Overview
-Displays dataset summary, missing values, and basic statistics.
-
-### Cell 4: Rating Distribution Analysis
-- Overall rating distribution
-- Rating statistics by application
-- Distribution comparisons
-
-### Cell 5: Sentiment Analysis
-- TextBlob and VADER sentiment scoring
-- Sentiment categorization (Positive/Neutral/Negative)
-- Sentiment statistics
-
-### Cell 6: Sentiment Distribution & Visualization
-- Sentiment pie charts and stacked bar charts
-- Sentiment vs rating scatter plots
-- Sentiment trends
-
-### Cell 7: Text Analysis & Keywords
-- Top 20 keywords across all feedback
-- Application-specific keyword analysis
-- Frequency histograms
-
-### Cell 8: Word Clouds
-- Overall feedback word cloud
-- Sentiment-specific word clouds
-- Application-specific word clouds
-
-### Cell 9: Issue Identification & Summary
-- Low-rated feedback analysis (1-2 stars)
-- High-rated feedback analysis (4-5 stars)
-- Issue and satisfaction driver visualization
-
-### Cell 10: Executive Summary & KPIs
-- Overall metrics (satisfaction rate, issue rate, sentiment)
-- Application performance comparison
-- Key findings and recommendations
-
-### Cell 11: Data Export
-- Export processed dataset with sentiment scores
-- Export summary statistics
-- Generate CSV files for further analysis
-
-## Analysis Metrics
-
-### Key Performance Indicators (KPIs)
-- **Average Rating**: Overall satisfaction measured on 1-5 scale
-- **Satisfaction Rate**: Percentage of 4-5 star ratings
-- **Issue Rate**: Percentage of 1-2 star ratings
-- **Sentiment Score**: Polarity score from -1 (negative) to +1 (positive)
-- **Correlation**: Rating-sentiment alignment metric
-
-### Application Comparison
-For each application, the analysis provides:
-- Average rating and distribution statistics
-- Satisfaction and issue rates
-- Sentiment scores
-- Top keywords and themes
-- Performance ranking
-
-## Dataset Details
-
-### Columns
-- **application_name**: Collections, Payments, or Customer Service Center
-- **rating**: Integer from 1 to 5 stars
-- **feedback**: Text feedback describing the logout experience
-- **sentiment_textblob**: TextBlob polarity score (-1 to +1)
-- **sentiment_vader**: VADER compound score (-1 to +1)
-- **sentiment_score**: Average of TextBlob and VADER scores
-- **sentiment_category**: Categorized as Positive, Neutral, or Negative
-
-### Rating Distribution (Synthetic)
-- 5 stars: 30%
-- 4 stars: 35%
-- 3 stars: 20%
-- 2 stars: 10%
-- 1 star: 5%
-
-## Export Files
-
-After running the notebook, three CSV files are generated:
-
-### 1. feedback_analysis_with_sentiment.csv
-Complete dataset with sentiment analysis results
-```
-application_name,rating,feedback,sentiment_score,sentiment_category
-Collections,5,"Excellent logout process...",0.85,Positive
-...
+```bash
+python create_notebook.py
 ```
 
-### 2. summary_statistics.csv
-Key metrics summary
-```
-Metric,Value
-Total Records,570
-Average Rating,3.78
-Average Sentiment Score,0.452
-Satisfaction Rate,64.2%
-...
-```
+This recreates the notebook from the notebook-generation definitions in `create_notebook.py`.
 
-### 3. application_summary.csv
-Per-application performance statistics
+## Typical Project Metrics
 
-## Interpretation Guide
+The current synthetic dataset produces results similar to:
 
-### Rating Scale
-- **5 stars**: Excellent experience, highly satisfied
-- **4 stars**: Good experience, satisfied
-- **3 stars**: Average experience, neutral
-- **2 stars**: Poor experience, dissatisfied
-- **1 star**: Terrible experience, very dissatisfied
+- Average rating: ~3.81 / 5
+- Satisfaction rate: ~66.7%
+- Sentiment correlation: ~0.805
+- 100 application summaries in export output
 
-### Sentiment Categories
-- **Positive**: Feedback with sentiment score ≥ 0.3 (praising features, quick responses, security)
-- **Neutral**: Feedback with sentiment score between -0.3 and 0.3 (mixed or factual)
-- **Negative**: Feedback with sentiment score ≤ -0.3 (complaints, issues, concerns)
+## Customization
 
-### Correlation Interpretation
-- Correlation > 0.7: Strong positive alignment between sentiment and rating
-- Correlation 0.3-0.7: Moderate alignment
-- Correlation < 0.3: Weak alignment (may indicate mismatches)
+The notebook is designed so you can adjust the synthetic analysis in a few places:
 
-## Recommendations Framework
+### Change dataset size or application count
 
-### Performance Levels
-- **🟢 Good (Rating ≥ 3.8)**: Maintain quality, monitor improvements
-- **🟡 Fair (Rating 3.2-3.8)**: Address issues within 2-4 weeks
-- **🔴 Critical (Rating < 3.2)**: Implement immediate action plan
+Edit the generation logic in the notebook cell that creates applications and records.
 
-### Priority Actions
-1. **Immediate**: Fix critical issues blocking user satisfaction
-2. **Short-term**: Address moderate issues within 2-4 weeks
-3. **Medium-term**: Implement enhancements within 1-3 months
-4. **Long-term**: Maintain and evolve best practices
+### Adjust rating distribution
 
-## Customization Guide
+Modify the `rating_distribution` values in the synthetic generation cell.
 
-### Modify Dataset Size
-In Cell 2, change `total_records`:
-```python
-total_records = 1000  # Change from 570 to desired number
-```
+### Change sentiment thresholds
 
-### Adjust Rating Distribution
-In Cell 2, modify `rating_distribution`:
-```python
-rating_distribution = {5: 0.25, 4: 0.40, 3: 0.20, 2: 0.10, 1: 0.05}
-```
+Update the `categorize_sentiment()` logic in the relevant analysis cell.
 
-### Add Custom Feedback
-Expand the feedback templates in Cell 2 with application-specific messages.
+### Expand feedback templates
 
-### Change Sentiment Threshold
-In Cell 5, adjust sentiment categorization:
-```python
-def categorize_sentiment(score):
-    if score >= 0.5:  # Increased from 0.3
-        return 'Positive'
-    elif score <= -0.5:
-        return 'Negative'
-    else:
-        return 'Neutral'
-```
+Add or replace entries in the per-rating feedback lists used to generate realistic review text.
 
 ## Troubleshooting
 
-### ModuleNotFoundError
-**Error**: `No module named 'textblob'`
-**Solution**: Run `pip install -r requirements.txt` and retry.
+### Module not found
 
-### NLTK Data Missing
-**Error**: `LookupError: Resource punkt not found`
-**Solution**: Run `python -m textblob.download_corpora`
+If you see an error like `ModuleNotFoundError: No module named 'textblob'`:
 
-### Notebook Not Opening
-**Error**: `Command not found: jupyter`
-**Solution**: Run `pip install jupyter` and retry.
-
-### Memory Issues with Large Datasets
-If using >5000 records, reduce visualization sample size or increase system RAM.
-
-## File Structure
-```
-application_feedback_analysis/
-├── feedback_analysis.ipynb                 # Main notebook
-├── requirements.txt                        # Python dependencies
-├── README.md                              # This file
-├── create_notebook.py                     # Script to generate notebook
-├── feedback_analysis_with_sentiment.csv   # Generated export
-├── summary_statistics.csv                 # Generated export
-└── application_summary.csv                # Generated export
+```bash
+pip install -r requirements.txt
 ```
 
-## Performance Metrics
+### Missing NLTK data
 
-Typical execution time:
-- **Data generation**: 2-3 seconds
-- **Sentiment analysis**: 5-10 seconds
-- **Text analysis**: 3-5 seconds
-- **Visualizations**: 10-15 seconds
-- **Total runtime**: 20-35 seconds for 570 records
+If you see a message such as `LookupError: Resource punkt not found`:
 
-Memory usage: ~150-200 MB
+```bash
+python -m textblob.download_corpora
+```
 
-## Dependencies
+### Word cloud blank or missing output
 
-| Package | Version | Purpose |
-|---------|---------|---------|
-| pandas | ≥1.5.0 | Data manipulation |
-| numpy | ≥1.23.0 | Numerical computing |
-| matplotlib | ≥3.6.0 | Plotting and visualization |
-| seaborn | ≥0.12.0 | Statistical visualization |
-| plotly | ≥5.11.0 | Interactive plots |
-| textblob | ≥0.17.0 | NLP and sentiment analysis |
-| vaderSentiment | ≥3.3.2 | Alternative sentiment analysis |
-| nltk | ≥3.8.0 | Natural language processing |
-| wordcloud | ≥1.9.0 | Word cloud generation |
-| scipy | ≥1.10.0 | Statistical functions |
-| jupyter | ≥1.0.0 | Notebook environment |
+Ensure the generated feedback text is non-empty and the relevant NLP resources are installed correctly.
 
-## Use Cases
+### Notebook rendering issues
 
-1. **User Experience Assessment**: Understand customer satisfaction with logout process
-2. **Application Comparison**: Benchmark performance across different banking applications
-3. **Issue Identification**: Discover and prioritize technical or UX problems
-4. **Trend Analysis**: Monitor satisfaction trends over time
-5. **Feature Validation**: Validate new features based on user feedback
-6. **Team Alignment**: Share insights across product and engineering teams
+Make sure Jupyter is installed and the notebook is launched in the project directory:
 
-## Future Enhancements
+```bash
+pip install jupyter ipykernel
+```
 
-- Real-time feedback dashboard
-- Time-series trend analysis
-- Sentiment evolution tracking
-- Multi-language support
-- Advanced NLP (topic modeling, named entity recognition)
-- A/B testing framework integration
-- Automated email reports
+## Important Notes
+
+- The project uses synthetic data, not real production feedback.
+- The generated CSV outputs are expected to stay consistent with the notebook logic.
+- Do not rename core output columns without updating downstream analysis logic.
+- Preserve the fixed random seed when reproducibility is important.
 
 ## License
 
-This project is provided as-is for analysis purposes.
+This project is provided for educational and analytical use. Please review any organization-specific licensing requirements before using it beyond local analysis.
+
+## Contributing
+
+This repository is primarily a notebook-driven analysis project. Contributions are welcome in the form of:
+
+- improved notebook logic
+- better visualizations
+- additional feedback templates
+- documentation improvements
+- performance or clarity enhancements
 
 ## Support
 
-For questions or issues:
-1. Check the Troubleshooting section
-2. Review the Customization Guide
-3. Consult the inline comments in the notebook
+For issues or questions:
 
-## Version History
-
-- **v1.0** (Jan 2026): Initial release with synthetic data generation, sentiment analysis, and insights
+1. Review the notebook cells and comments
+2. Check the troubleshooting section above
+3. Rebuild the notebook using `python create_notebook.py`
+4. Verify all Python dependencies are correctly installed
 
 ---
 
-**Generated with Claude Code** | *Banking Application Feedback Analysis System*
-=======
-# application-feedback-analysis
->>>>>>> 422e8bdcd7b8448d13d901861a1f6ceaf23c54d3
+Built for exploratory banking user-experience analysis and synthetic sentiment evaluation.
