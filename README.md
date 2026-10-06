@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Banking Application Logout Feedback Analysis
 
 ## Overview
@@ -338,3 +339,6 @@ For questions or issues:
 ---
 
 **Generated with Claude Code** | *Banking Application Feedback Analysis System*
+=======
+# application-feedback-analysis
+>>>>>>> 422e8bdcd7b8448d13d901861a1f6ceaf23c54d3
